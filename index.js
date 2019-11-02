@@ -18,7 +18,7 @@ axios.get(bullshitUrl, { headers: { "Authorization": `Bearer ${jwtToken}` } }).t
         for (shift = 1; shift < charset.length; shift++) {
             let decrypted = decrypt(msg.original, shift, charset)
             //Sanoissa ei saa esiintyä mahdottomia kirjainyhdistelmiä ja kahden sanan pitää löytyä sanakirjasta
-            if (!isBullshit(decrypted) && dictionaryWords(wordlist, decrypted) >= 1) {
+            if (!isBullshit(decrypted) && dictionaryWords(wordlist, decrypted) >= 2) {
                 msg.decrypted = decrypted
                 msg.dictionary = dictionaryWords(wordlist, decrypted)
             }
@@ -99,7 +99,8 @@ function dictionaryWords(wordlist, text) {
 
 function readWordlist() {
     var data = require('fs').readFileSync('./sanalista.txt', 'utf8')
-    data = data.replace('\r', '').split('\n')
+    data = data.split('\n')
+    data = data.map(word => word.replace('\r', ''))
     console.log(`Wordlist length ${data.length} words ${data[0]}`);
     return data
 }
