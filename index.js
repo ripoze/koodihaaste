@@ -18,7 +18,7 @@ axios.get(bullshitUrl, { headers: { "Authorization": `Bearer ${jwtToken}` } }).t
         for (shift = 1; shift < charset.length; shift++) {
             let decrypted = decrypt(msg.original, shift, charset)
             //Sanoissa ei saa esiintyä mahdottomia kirjainyhdistelmiä ja kahden sanan pitää löytyä sanakirjasta
-            if (!isBullshit(decrypted) && dictionaryWords(wordlist, decrypted) >= 2) {
+            if (!isBullshit(decrypted) && dictionaryWords(wordlist, decrypted) >= 1) {
                 msg.decrypted = decrypted
                 msg.dictionary = dictionaryWords(wordlist, decrypted)
             }
@@ -67,6 +67,7 @@ function decrypt(text, shift, charset) {
     if(text[0].toUpperCase() === text[0]) result = result[0].toUpperCase() + result.slice(1) //Ensimmäinen kirjain takaisin isoksi
     return result
 }
+
 
 function isBullshit(text) {
     text = text.toLowerCase()
