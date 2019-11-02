@@ -24,7 +24,7 @@ axios.get(bullshitUrl, { headers: { "Authorization": `Bearer ${jwtToken}` } }).t
             }
         }
     })
-    webserver(80, data)
+    webserver(process.env.PORT || 80, data)
 })
 
 
