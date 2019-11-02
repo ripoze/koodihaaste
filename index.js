@@ -98,7 +98,7 @@ function dictionaryWords(wordlist, text) {
 
 function readWordlist() {
     var data = require('fs').readFileSync('./sanalista.txt', 'utf8')
-    data = data.split('\r\n')
+    data = data.replace('\r', '').split('\n')
     console.log(`Wordlist length ${data.length} words ${data[0]}`);
     return data
 }
