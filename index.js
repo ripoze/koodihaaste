@@ -5,7 +5,6 @@ const charset = String("abcdefghijklmnopqrstuvwxyzåäö").split('')
 
 const express = require('express')
 
-
 axios.get(bullshitUrl, { headers: { "Authorization": `Bearer ${jwtToken}` } }).then(response => {
     let data = []
     const wordlist = readWordlist()
@@ -17,8 +16,7 @@ axios.get(bullshitUrl, { headers: { "Authorization": `Bearer ${jwtToken}` } }).t
     data.forEach(msg => {
         for (shift = 1; shift < charset.length; shift++) {
             let decrypted = decrypt(msg.original, shift, charset)
-            //Sanoissa ei saa esiintyä mahdottomia kirjainyhdistelmiä ja kahden sanan pitää löytyä sanakirjasta
-            if (!isBullshit(decrypted) && dictionaryWords(wordlist, decrypted) >= 2) {
+            if (!isBullshit(decrypted) && dictionaryWords(wordlist, decrypted) >= 2) { //Sanoissa ei saa esiintyä mahdottomia kirjainyhdistelmiä ja kahden sanan pitää löytyä sanakirjasta
                 msg.decrypted = decrypted
                 msg.dictionary = dictionaryWords(wordlist, decrypted)
             }
@@ -27,12 +25,10 @@ axios.get(bullshitUrl, { headers: { "Authorization": `Bearer ${jwtToken}` } }).t
     webserver(process.env.PORT || 80, data)
 })
 
-
-
 function webserver(port, data) {
     const app = express()
     let noBs = ''
-    data.filter(item => item.decrypted).forEach(item => noBs += '<li>' + item.decrypted + ' ' + item.dictionary + '</li>')
+    data.filter(item => item.decrypted).forEach(item => noBs += '<li>' + item.decrypted + '</li>')
     let bs = ''
     data.filter(item => !item.decrypted).forEach(item => bs += '<li>' + item.original + '</li>')
     let html = `
@@ -68,7 +64,6 @@ function decrypt(text, shift, charset) {
     return result
 }
 
-
 function isBullshit(text) {
     text = text.toLowerCase()
     text = text.replace(".", '').split(' ')
@@ -101,6 +96,5 @@ function readWordlist() {
     var data = require('fs').readFileSync('./sanalista.txt', 'utf8')
     data = data.split('\n')
     data = data.map(word => word.replace('\r', ''))
-    console.log(`Wordlist length ${data.length} words ${data[0]}`);
     return data
 }
