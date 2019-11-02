@@ -68,7 +68,7 @@ function isBullshit(text) {
     text = text.toLowerCase()
     text = text.replace(".", '').split(' ')
     for (i = 0; i < text.length; i++) {
-        if (text[i].match(/[aeiouyåäö]{3}/g)) return true //Ei kolmea vokaalia peräkkäin
+        if (text[i].match(/[aeiouyåäö]{4}/g)) return true //Ei neljää vokaalia peräkkäin
         if (text[i].match(/[bcdfghjklmnpqrstvwxz]{4}/g)) return true //Ei neljää konsonanttia peräkkäin
         if (text[i].match(/[bcdfghjklmnpqrstvwxz]{2}$/g) != null) return true //Sana ei voi loppua kahteen konsonanttiin
         if (text[i].match(/fz/g)) return true // 'fz' ei missään suomalaisessa sanassa
